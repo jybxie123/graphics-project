@@ -5,7 +5,7 @@
 //need test
 const GLfloat roaming::MAX_SPEED = 0.5f;
 const GLfloat roaming::MIN_SPEED = 0.5f;
-const GLfloat roaming::MAX_SENSITIVITY = 1.0f;
+const GLfloat roaming::MAX_SENSITIVITY = 0.0f;
 const GLfloat roaming::MIN_SENSITIVITY = 1.0f;
 const GLfloat roaming::DEFAULT_FOVY = 60.0f;
 const GLfloat roaming::MAX_SCROLL_SENSITIVITY = 1.0f;
@@ -15,37 +15,41 @@ const GLfloat roaming::MIN_ZOOM = 0.5f;
 const GLfloat roaming::MAX_PITCH = 89.99f;
 const GLfloat roaming::MIN_PITCH = -89.99f;
 const GLfloat roaming::TOTAL_YAW = 360.0f;
+const float roaming::PI_DIV_360 = 3.1415926 / 360;
 
 roaming::roaming()
 {
 	//eye: x, y, z
 	eye[0] = 0.0f, eye[1] = 0.0f, eye[2] = 2.0f;
 	//forward: the vector of sight
-	forward[0] = 0.0f, eye[1] = 0.0f, eye[2] = -1.0f;
+	forward[0] = 0.0f, forward[1] = 0.0f, forward[2] = -1.0f;
 	//up: the upward vector
 	up[0] = 0.0f, up[1] = 1.0f, up[2] = 0.0f;
 	//side forward x up
 	side[0] = 1.0f, side[1] = 0.0f, side[2] = 0.0f;
 	//speed, sensitivity, zoomRate, scrollSensitivity
 	speed = 0.05f;
-	sensitivity = 1.0f;
-	zoomRate = 1.0f;
+	sensitivity_x = 180.0f / 480.0f;
+	sensitivity_y = 360.0f / 640.0f;
+ 	zoomRate = 1.0f;
 	scrollSensitivity = 1.0f;
 	//pitch, yaw
 	pitch = 0.0f;
 	yaw = 0.0f;
 	//ifInWindow
 	ifInWindow = true;
+	//wwid, whei
+	wwid = 640, whei = 480;
 }
 roaming::~roaming()
 {
 
 }
-void roaming::HandleKeyPress(ROAMING_PAN_MOVEMENT panType)
+void roaming::HandleKeyPress(roaming::ROAMING_PAN_MOVEMENT panType)
 {
 	switch (panType)
 	{
-	case PAN_UP ://space
+	case PAN_UP://space
 	{
 		eye[1] += speed * up[1];
 		break;
@@ -60,7 +64,7 @@ void roaming::HandleKeyPress(ROAMING_PAN_MOVEMENT panType)
 		eye[0] += speed * forward[0];
 		eye[1] += speed * forward[1];
 		eye[2] += speed * forward[2];
- 		break;
+		break;
 	}
 	case PAN_BACKWARD://s
 	{
@@ -84,7 +88,10 @@ void roaming::HandleKeyPress(ROAMING_PAN_MOVEMENT panType)
 		break;
 	}
 	default:
+	{
+		break;
 	}
+	};
 
 	UpdateLookAt();
 }
@@ -115,7 +122,7 @@ void roaming::HandleMouseScroll(SCROLL_STATE scrollType, GLfloat offset)
 	if (zoomRate > MAX_ZOOM)
 		zoomRate = MAX_ZOOM;
 
-	UpdatePerspect();
+	UpdatePerspect(wwid, whei);
 }
 void roaming::HandleMouseMove(GLfloat xoffset, GLfloat yoffset)
 {
@@ -123,19 +130,14 @@ void roaming::HandleMouseMove(GLfloat xoffset, GLfloat yoffset)
 	if (!ifInWindow)
 		return;
 
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-	pitch += yoffset;
-	yaw += xoffset;
+	xoffset = 0.5 * wwid - xoffset;
+	yoffset = 0.5 * whei - yoffset;
 
-	if (pitch > MAX_PITCH)
-		pitch = MAX_PITCH;
-	else if (pitch < MIN_PITCH)
-		pitch = MIN_PITCH;
-	while (yaw < 0.0f)
-		yaw += TOTAL_YAW;
-	while (yaw > TOTAL_YAW)
-		yaw -= TOTAL_YAW;
+	xoffset *= sensitivity_x * PI_DIV_360;
+	yoffset *= sensitivity_y * PI_DIV_360;
+	
+	pitch = yoffset;
+	yaw = xoffset;
 
 	//update forward
 	forward[0] = -1 * sin(yaw) * cos(pitch);
@@ -146,6 +148,8 @@ void roaming::HandleMouseMove(GLfloat xoffset, GLfloat yoffset)
 	side[0] = cos(yaw);
 	side[1] = 0.0f;
 	side[2] = -sin(yaw);
+
+	UpdateLookAt();
 }
 void roaming::HandleMouseInWindow(bool ifInW)
 {
@@ -164,18 +168,23 @@ void roaming::SetSpeed(GLfloat speedIn)
 	}
 	speed = speedIn;
 }
-void roaming::SetSensitivity(GLfloat senIn)
+void roaming::SetSensitivity(int index, GLfloat senIn)
 {
 	try
 	{
 		if (senIn < MIN_SENSITIVITY || senIn > MAX_SENSITIVITY)
 			throw EXC_SENSITIVITY_OUT_OF_RANGE;
+		if (index != 0 && index != 1)
+			throw EXC_LIGHT_INDEX_OUT_OF_RANGE;
 	}
 	catch (MyException exc)
 	{
 		throw exc;
 	}
-	sensitivity = senIn;
+	if (index == 0)
+		sensitivity_x = senIn;
+	else if (index == 1)
+		sensitivity_y = senIn;
 }
 void roaming::SetScrollSensitivity(GLfloat senIn)
 {
@@ -192,14 +201,26 @@ void roaming::SetScrollSensitivity(GLfloat senIn)
 }
 void roaming::UpdateLookAt()
 {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	gluLookAt(eye[0], eye[1], eye[2],
 			  eye[0] + forward[0], eye[1] + forward[1], eye[2] + forward[2],
 			  up[0], up[1], up[2]);
 }
-void roaming::UpdatePerspect()
+void roaming::UpdatePerspect(GLint wwidth, GLint wheight)
 {
-	GLint wwidth = glutGet(GLUT_WINDOW_WIDTH), wheight = glutGet(GLUT_WINDOW_HEIGHT);
 	if (wheight == 0) wheight = 1;
+	wwid = wwidth; whei = wheight;
+
+	sensitivity_x = 360.0f / wwidth;
+	sensitivity_y = 180.0f / wheight;
+
+	glViewport(0, 0, wwidth, wheight);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	//handle for exception
 	gluPerspective(DEFAULT_FOVY*zoomRate, (GLdouble)wwidth/(GLdouble)(wheight), 0.1f, 300.0f);
+	
+	glMatrixMode(GL_MODELVIEW);
 }
