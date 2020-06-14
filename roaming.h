@@ -1,7 +1,7 @@
 #pragma once
 #include "glut.h"
 #include <iostream>
-
+//支持zoom功能
 class roaming
 {
 	//平移方向
