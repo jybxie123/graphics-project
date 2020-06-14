@@ -25,19 +25,19 @@ public:
 	};
 	//常量
 private:
-	static const GLfloat 	MAX_SPEED,//移动速度
-			 	MIN_SPEED,
-				MAX_SENSITIVITY,//鼠标灵敏度
-				MIN_SENSITIVITY,
-				DEFAULT_FOVY,//默认视野二面角
-				MAX_SCROLL_SENSITIVITY,//鼠标滚轮灵敏度
-				MIN_SCROLL_SENSITIVITY,
-				MAX_ZOOM,//缩放比例
-				MIN_ZOOM,
-				MAX_PITCH,//x轴旋转角
-				MIN_PITCH,
-		                TOTAL_YAW;//最大y轴旋转角
-	static const float 	PI_DIV_360;
+	static const GLfloat MAX_SPEED,//移动速度
+						 MIN_SPEED,
+						 MAX_SENSITIVITY,//鼠标灵敏度
+					     MIN_SENSITIVITY,
+						 DEFAULT_FOVY,//默认视野二面角
+						 MAX_SCROLL_SENSITIVITY,//鼠标滚轮灵敏度
+						 MIN_SCROLL_SENSITIVITY,
+						 MAX_ZOOM,//缩放比例
+		                 MIN_ZOOM,
+						 MAX_PITCH,//x轴旋转角
+						 MIN_PITCH,
+		                 TOTAL_YAW;//最大y轴旋转角
+	static const float PI_DIV_360;
 
 public:
 	roaming();
@@ -46,7 +46,7 @@ public:
 	//由按键回调函数调用
 	void HandleKeyPress(ROAMING_PAN_MOVEMENT);
 	//由鼠标操作回调函数调用
-	void HandleMouseScroll(SCROLL_STATE, GLfloat);
+	void HandleMouseScroll(SCROLL_STATE);
 	//由鼠标捕捉回调函数调用
 	void HandleMouseMove(GLfloat, GLfloat);
 	//由判断鼠标是否在窗口内回调函数调用
