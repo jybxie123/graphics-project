@@ -25,19 +25,19 @@ public:
 	};
 	//常量
 private:
-	static const GLfloat MAX_SPEED,//移动速度
-						 MIN_SPEED,
-						 MAX_SENSITIVITY,//鼠标灵敏度
-					     MIN_SENSITIVITY,
-						 DEFAULT_FOVY,//默认视野二面角
-						 MAX_SCROLL_SENSITIVITY,//鼠标滚轮灵敏度
-						 MIN_SCROLL_SENSITIVITY,
-						 MAX_ZOOM,//缩放比例
-		                 MIN_ZOOM,
-						 MAX_PITCH,//x轴旋转角
-						 MIN_PITCH,
-		                 TOTAL_YAW;//最大y轴旋转角
-	static const float PI_DIV_360;
+	static const GLfloat 	MAX_SPEED,//移动速度
+			 	MIN_SPEED,
+				MAX_SENSITIVITY,//鼠标灵敏度
+				MIN_SENSITIVITY,
+				DEFAULT_FOVY,//默认视野二面角
+				MAX_SCROLL_SENSITIVITY,//鼠标滚轮灵敏度
+				MIN_SCROLL_SENSITIVITY,
+				MAX_ZOOM,//缩放比例
+				MIN_ZOOM,
+				MAX_PITCH,//x轴旋转角
+				MIN_PITCH,
+		                TOTAL_YAW;//最大y轴旋转角
+	static const float 	PI_DIV_360;
 
 public:
 	roaming();
