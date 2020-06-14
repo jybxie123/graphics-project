@@ -9,13 +9,13 @@ const GLfloat roaming::MAX_SENSITIVITY = 0.0f;
 const GLfloat roaming::MIN_SENSITIVITY = 1.0f;
 const GLfloat roaming::DEFAULT_FOVY = 60.0f;
 const GLfloat roaming::MAX_SCROLL_SENSITIVITY = 1.0f;
-const GLfloat roaming::MIN_SCROLL_SENSITIVITY = 1.0f;
+const GLfloat roaming::MIN_SCROLL_SENSITIVITY = 0.0f;
 const GLfloat roaming::MAX_ZOOM = 2.0f;
 const GLfloat roaming::MIN_ZOOM = 0.5f;
 const GLfloat roaming::MAX_PITCH = 89.99f;
 const GLfloat roaming::MIN_PITCH = -89.99f;
 const GLfloat roaming::TOTAL_YAW = 360.0f;
-const float roaming::PI_DIV_360 = 3.1415926 / 360;
+const float roaming::PI_DIV_360 = (3.1415926 + 0.1)/ 180;
 
 roaming::roaming()
 {
@@ -32,7 +32,7 @@ roaming::roaming()
 	sensitivity_x = 180.0f / 480.0f;
 	sensitivity_y = 360.0f / 640.0f;
  	zoomRate = 1.0f;
-	scrollSensitivity = 1.0f;
+	scrollSensitivity = 0.01f;
 	//pitch, yaw
 	pitch = 0.0f;
 	yaw = 0.0f;
@@ -95,18 +95,18 @@ void roaming::HandleKeyPress(roaming::ROAMING_PAN_MOVEMENT panType)
 
 	UpdateLookAt();
 }
-void roaming::HandleMouseScroll(SCROLL_STATE scrollType, GLfloat offset)
+void roaming::HandleMouseScroll(SCROLL_STATE scrollType)
 {
 	switch (scrollType)
 	{
 	case SCROLL_UP:
 	{
-		zoomRate += offset * scrollSensitivity;
+		zoomRate -= scrollSensitivity;
 		break;
 	}
 	case SCROLL_DOWN:
 	{
-		zoomRate -= offset * scrollSensitivity;
+		zoomRate += scrollSensitivity;
 		break;
 	}
 	case SCROLL_PUSH:
