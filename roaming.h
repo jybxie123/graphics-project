@@ -1,9 +1,11 @@
 #pragma once
 #include "glut.h"
 #include <iostream>
-//支持zoom功能
+
 class roaming
 {
+
+public:
 	//平移方向
 	enum ROAMING_PAN_MOVEMENT
 	{
@@ -22,18 +24,20 @@ class roaming
 		SCROLL_PUSH//鼠标中键按下
 	};
 	//常量
-	static const GLfloat 	MAX_SPEED,//移动速度
-				MIN_SPEED,
-				MAX_SENSITIVITY,//鼠标灵敏度
-				MIN_SENSITIVITY,
-				DEFAULT_FOVY,//默认视野二面角
-				MAX_SCROLL_SENSITIVITY,//鼠标滚轮灵敏度
-				MIN_SCROLL_SENSITIVITY,
-				MAX_ZOOM,//缩放比例
-		                MIN_ZOOM,
-				MAX_PITCH,//x轴旋转角
-				MIN_PITCH,
-				TOTAL_YAW;//最大y轴旋转角
+private:
+	static const GLfloat MAX_SPEED,//移动速度
+						 MIN_SPEED,
+						 MAX_SENSITIVITY,//鼠标灵敏度
+					     MIN_SENSITIVITY,
+						 DEFAULT_FOVY,//默认视野二面角
+						 MAX_SCROLL_SENSITIVITY,//鼠标滚轮灵敏度
+						 MIN_SCROLL_SENSITIVITY,
+						 MAX_ZOOM,//缩放比例
+		                 MIN_ZOOM,
+						 MAX_PITCH,//x轴旋转角
+						 MIN_PITCH,
+		                 TOTAL_YAW;//最大y轴旋转角
+	static const float PI_DIV_360;
 
 public:
 	roaming();
@@ -50,19 +54,18 @@ public:
 	//设置移动速度
 	void SetSpeed(GLfloat);
 	//设置鼠标灵敏度
-	void SetSensitivity(GLfloat);
+	void SetSensitivity(int, GLfloat);	
 	//设置鼠标滚轮灵敏度
 	void SetScrollSensitivity(GLfloat);
-
-private:
-	GLfloat eye[3], forward[3], up[3], side[3];
-	GLfloat speed, sensitivity, zoomRate, scrollSensitivity;
-	GLfloat pitch, yaw;
-	bool ifInWindow;
-
-private:
 	//更新lookat
 	void UpdateLookAt();
 	//更新glperspecive
-	void UpdatePerspect();
+	void UpdatePerspect(GLint, GLint);
+
+private:
+	GLfloat eye[3], forward[3], up[3], side[3];
+	GLfloat speed, sensitivity_x, sensitivity_y, zoomRate, scrollSensitivity;
+	GLfloat pitch, yaw;
+	GLint whei, wwid;
+	bool ifInWindow;
 };
