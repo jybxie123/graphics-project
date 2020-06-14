@@ -83,7 +83,7 @@ void roaming::HandleKeyPress(ROAMING_PAN_MOVEMENT panType)
 		eye[2] += speed * side[2];
 		break;
 	}
-	default:
+	default:{ }
 	}
 
 	UpdateLookAt();
