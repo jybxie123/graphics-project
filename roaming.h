@@ -4,7 +4,7 @@
 
 class roaming
 {
-	//Æ½ÒÆ·½Ïò
+	//å¹³ç§»æ–¹å‘
 	enum ROAMING_PAN_MOVEMENT
 	{
 		PAN_UP,
@@ -14,44 +14,44 @@ class roaming
 		PAN_LEFT,
 		PAN_RIGHT
 	};
-	//Êó±ê¹öÂÖ²Ù×÷
+	//é¼ æ ‡æ»šè½®æ“ä½œ
 	enum SCROLL_STATE
 	{
 		SCROLL_DOWN,
 		SCROLL_UP,
-		SCROLL_PUSH//Êó±êÖÐ¼ü°´ÏÂ
+		SCROLL_PUSH//é¼ æ ‡ä¸­é”®æŒ‰ä¸‹
 	};
-	//³£Á¿
-	static const GLfloat MAX_SPEED,//ÒÆ¶¯ËÙ¶È
-						 MIN_SPEED,
-						 MAX_SENSITIVITY,//Êó±êÁéÃô¶È
-					     MIN_SENSITIVITY,
-						 DEFAULT_FOVY,//Ä¬ÈÏÊÓÒ°¶þÃæ½Ç
-						 MAX_SCROLL_SENSITIVITY,//Êó±ê¹öÂÖÁéÃô¶È
-						 MIN_SCROLL_SENSITIVITY,
-						 MAX_ZOOM,//Ëõ·Å±ÈÀý
-		                 MIN_ZOOM,
-						 MAX_PITCH,//xÖáÐý×ª½Ç
-						 MIN_PITCH,
-		                 TOTAL_YAW;//×î´óyÖáÐý×ª½Ç
+	//å¸¸é‡
+	static const GLfloat 	MAX_SPEED,//ç§»åŠ¨é€Ÿåº¦
+				MIN_SPEED,
+				MAX_SENSITIVITY,//é¼ æ ‡çµæ•åº¦
+				MIN_SENSITIVITY,
+				DEFAULT_FOVY,//é»˜è®¤è§†é‡ŽäºŒé¢è§’
+				MAX_SCROLL_SENSITIVITY,//é¼ æ ‡æ»šè½®çµæ•åº¦
+				MIN_SCROLL_SENSITIVITY,
+				MAX_ZOOM,//ç¼©æ”¾æ¯”ä¾‹
+		                MIN_ZOOM,
+				MAX_PITCH,//xè½´æ—‹è½¬è§’
+				MIN_PITCH,
+				TOTAL_YAW;//æœ€å¤§yè½´æ—‹è½¬è§’
 
 public:
 	roaming();
 	~roaming();
 
-	//ÓÉ°´¼ü»Øµ÷º¯Êýµ÷ÓÃ
+	//ç”±æŒ‰é”®å›žè°ƒå‡½æ•°è°ƒç”¨
 	void HandleKeyPress(ROAMING_PAN_MOVEMENT);
-	//ÓÉÊó±ê²Ù×÷»Øµ÷º¯Êýµ÷ÓÃ
+	//ç”±é¼ æ ‡æ“ä½œå›žè°ƒå‡½æ•°è°ƒç”¨
 	void HandleMouseScroll(SCROLL_STATE, GLfloat);
-	//ÓÉÊó±ê²¶×½»Øµ÷º¯Êýµ÷ÓÃ
+	//ç”±é¼ æ ‡æ•æ‰å›žè°ƒå‡½æ•°è°ƒç”¨
 	void HandleMouseMove(GLfloat, GLfloat);
-	//ÓÉÅÐ¶ÏÊó±êÊÇ·ñÔÚ´°¿ÚÄÚ»Øµ÷º¯Êýµ÷ÓÃ
+	//ç”±åˆ¤æ–­é¼ æ ‡æ˜¯å¦åœ¨çª—å£å†…å›žè°ƒå‡½æ•°è°ƒç”¨
 	void HandleMouseInWindow(bool);
-	//ÉèÖÃÒÆ¶¯ËÙ¶È
+	//è®¾ç½®ç§»åŠ¨é€Ÿåº¦
 	void SetSpeed(GLfloat);
-	//ÉèÖÃÊó±êÁéÃô¶È
+	//è®¾ç½®é¼ æ ‡çµæ•åº¦
 	void SetSensitivity(GLfloat);
-	//ÉèÖÃÊó±ê¹öÂÖÁéÃô¶È
+	//è®¾ç½®é¼ æ ‡æ»šè½®çµæ•åº¦
 	void SetScrollSensitivity(GLfloat);
 
 private:
@@ -61,8 +61,8 @@ private:
 	bool ifInWindow;
 
 private:
-	//¸üÐÂlookat
+	//æ›´æ–°lookat
 	void UpdateLookAt();
-	//¸üÐÂglperspecive
+	//æ›´æ–°glperspecive
 	void UpdatePerspect();
 };
