@@ -37,7 +37,7 @@ private:
 				MAX_PITCH,//x轴旋转角
 				MIN_PITCH,
 		                TOTAL_YAW;//最大y轴旋转角
-	static const float 	PI_DIV_360;
+	static const float   	PI_DIV_360;
 
 public:
 	roaming();
