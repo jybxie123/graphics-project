@@ -2,21 +2,20 @@
 #include <string>
 #include <iostream>
 
-//н╙ак╥╫╠Цйвох╡исцжпндв╒йм
-//ио╫╩й╣яИ╠╗╦Фй╠╡их║с╒ндв╒йм
+//Д╦┼Д╨╓Е╝·И╙▄Ф┼╔Е▒┼Ф≈╤И┤┤Е▐√Х▀╠Ф√┤ФЁ╗И┤┼
 class ScreenShot
 {
 public:
 	ScreenShot();
 	~ScreenShot();
 
-	//©╙й╪╫ьм╪ё╛╡их║д╛хоцЭцШ
+	//Е╪─Е╖▀Ф┬╙Е⌡╬О╪▄И┤┤Е▐√И╩≤Х╝╓Е▒╫Е░█
 	void BeginScreenShot();
-	//©╙й╪╫ьм╪ё╛╦Ь╤╗нд╪ЧцШ
+	//Е╪─Е╖▀Ф┬╙Е⌡╬О╪▄Г╩≥Е╝ Ф√┤Д╩╤Е░█
 	void BeginScreenShot(std::string);
-	//╩Я╣ц╣╠г╟╫ьм╪╦ЖйЩ
+	//Х▌╥Е╬≈Е╫⌠Е┴█Ф┬╙Е⌡╬Д╦╙Ф∙╟
 	int GetNumOfFile() const;
-	//иХжц╫ьм╪пР╨е
+	//Х╝╬Г╫╝Ф┬╙Е⌡╬Е╨▐Е▐╥
 	void SetNumOfFile(int);
 
 private:
