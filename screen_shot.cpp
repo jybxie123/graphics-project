@@ -29,7 +29,7 @@ void ScreenShot::BeginScreenShot()
 	{
 		BeginScreenShot_(fileName);
 	}
-	catch(std::exception exc)
+	catch(MyException exc)
 	{
 		throw exc;
 	}
@@ -40,7 +40,7 @@ void ScreenShot::BeginScreenShot(std::string fileName)
 	{
 		BeginScreenShot_(fileName);
 	}
-	catch (std::exception exc)
+	catch (MyException exc)
 	{
 		throw exc;
 	}
@@ -70,7 +70,7 @@ void ScreenShot::BeginScreenShot_(std::string fileName)
 	//fix the filename and open the bmp file
 	std::ofstream writeBMP;
 	fileName += ".bmp";
-	writeBMP.open(fileName.c_str());
+	writeBMP.open(fileName.c_str(),std::ios::binary);
 	//the file header and infoheader
 	BITMAPFILEHEADER bitmapFileHeader;
 	BITMAPINFOHEADER bitmapInfoHeader;
@@ -98,17 +98,17 @@ void ScreenShot::BeginScreenShot_(std::string fileName)
 	//No affects
 	bitmapFileHeader.bfReserved1 = 0;
 	bitmapFileHeader.bfReserved2 = 0;
-	bitmapFileHeader.bfOffBits = (DWORD)0x00000036;
+	bitmapFileHeader.bfOffBits = 0x036;
 	//54 bytes offset
 
 	bitmapInfoHeader.biSize = (DWORD)0x00000028;
 	//size of infoheader
 	bitmapInfoHeader.biWidth = (LONG)windowWidth;
-	bitmapInfoHeader.biWidth = (LONG)windowHeight;
+	bitmapInfoHeader.biHeight = (LONG)windowHeight;
 	bitmapInfoHeader.biPlanes = (WORD)1;
 	bitmapInfoHeader.biBitCount = (WORD)0x0018;
 	bitmapInfoHeader.biCompression = 0;
-	bitmapInfoHeader.biSizeImage = (DWORD)0;
+	bitmapInfoHeader.biSizeImage = len;
 	bitmapInfoHeader.biXPelsPerMeter = 0;
 	bitmapInfoHeader.biYPelsPerMeter = 0;
 	bitmapInfoHeader.biClrUsed = 0;
@@ -121,6 +121,7 @@ void ScreenShot::BeginScreenShot_(std::string fileName)
 	//read data
 	glReadPixels(0, 0, windowWidth, windowHeight, GL_BGR_EXT, GL_UNSIGNED_BYTE, pData);
 	//write file
+	//writeBMP.write((const char*)&bitmapFileHeader, sizeof(bitmapFileHeader));
 	writeBMP.write((const char*)&bitmapFileHeader, sizeof(bitmapFileHeader));
 	writeBMP.write((const char*)&bitmapInfoHeader, sizeof(bitmapInfoHeader));
 	writeBMP.write((const char*)pData, len);
